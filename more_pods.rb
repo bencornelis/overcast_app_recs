@@ -59,6 +59,7 @@ pp results
     .map(&:first)
     .sort
     .chunk { |x| x }
-    .sort_by { |_, titles| -titles.size }
     .map { |title, titles| [title, titles.size] }
+    .sort_by(&:last)
+    .reverse
     .take(10)
