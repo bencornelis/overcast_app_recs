@@ -56,13 +56,13 @@ end
 podcasts = results.reject { |result| my_podcast_ids.include?(result.last) }.map(&:first)
 
 # count number of relations for each podcast
-podcast_related_count = podcasts.map { |podcast| [podcast, podcasts.count(podcast)] }.to_h
+podcast_to_count = podcasts.each_with_object(Hash.new(0)) { |pod, hsh| hsh[pod] += 1 }
 
 # order podcasts by how many of my podcasts they're related to
 puts 'Here are some podcasts you might enjoy:'
 pp podcasts
     .uniq
-    .map { |podcast| [podcast, podcast_related_count[podcast]] }
+    .map { |podcast| [podcast, podcast_to_count[podcast]] }
     .sort_by(&:last)
     .reverse
     .take(10)
